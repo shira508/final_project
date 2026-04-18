@@ -1,0 +1,10 @@
+opencv-python
+dlib
+Pillow
+numpy
+pandas
+torch
+torchvision
+scipy
+matplotlib
+cmake  

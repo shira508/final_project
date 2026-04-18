@@ -1,0 +1,2 @@
+Color_range=10
+Num_of_neighbors=2

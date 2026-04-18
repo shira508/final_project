@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="//netfree.link/img/block-favicon.png"/>
+    </head>
+    <body>
+        <iframe id="netfree_block_iframe" name="netfree-block-iframe" src="https://netfree.link/block/#%7B%22block%22%3A%22risk-type%22%2C%22sourceStatusCode%22%3A200%2C%22page_info%22%3A%7B%22url%22%3A%22https%3A%2F%2Fraw.githubusercontent.com%2Fitalojs%2Ffacial-landmarks-recognition%2Frefs%2Fheads%2Fmaster%2Fshape_predictor_68_face_landmarks.dat%22%2C%22referer%22%3A%22https%3A%2F%2Fgithub.com%2Fitalojs%2Ffacial-landmarks-recognition%2Fblob%2Fmaster%2Fshape_predictor_68_face_landmarks.dat%22%7D%7D" style=" position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; "></iframe>
+    </body>
+</html>
+
