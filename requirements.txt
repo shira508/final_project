@@ -1,10 +1,11 @@
 opencv-python
-dlib
 Pillow
 numpy
 pandas
-torch
-torchvision
-scipy
 matplotlib
-cmake  
+tensorflow
+tensorflow.keras
+IPython
+tqdm
+Imageio
+layers
