@@ -56,8 +56,8 @@ def process_dataset_only_tears(source_dir, torn_dir, size=64):
     print("הסתיים בהצלחה! התמונות עם הקרעים הלבנים מוכנות בתיקייה.")
 
 # הגדרת נתיבים
-source_path = r'C:\Projects\FinalProject\NewProject\woman'
-torn_path = r'C:\Projects\FinalProject\NewProject\woman_torn'
+source_path = r'C:\Projects\FinalProject\NewProject\Full'
+torn_path = r'C:\Projects\FinalProject\NewProject\Torn'
 
 # הרצה
 process_dataset_only_tears(source_path, torn_path)

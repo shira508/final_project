@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 # reading the damaged image
-damaged_img = cv2.imread("1.jpg")
+damaged_img = cv2.imread("man_1.png")
 
 # get the shape of the image
 height, width = damaged_img.shape[0], damaged_img.shape[1]

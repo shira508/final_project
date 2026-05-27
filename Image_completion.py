@@ -1,4 +1,4 @@
-from mp_LandMarks import get_lip_landmarks
+from coloring_image.coloring_lips import get_lip_landmarks
 import numpy as np
 import cv2
 
@@ -6,7 +6,7 @@ import cv2
 W, H = 500, 500
 
 # קריאת הנקודות עם העברת הגודל
-points_raw = get_lip_landmarks('4.jpg', target_w=W, target_h=H)
+points_raw = get_lip_landmarks('11.jpg', target_w=W, target_h=H)
 
 if points_raw:
     # הכנת המסיכה והנקודות

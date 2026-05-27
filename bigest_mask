@@ -1,0 +1,42 @@
+import os
+import cv2
+import numpy as np
+
+# 1. הגדרת נתיבי התיקיות
+input_folder = r'C:\Projects\FinalProject\NewProject\dataset\masks'
+output_folder = r'C:\Projects\FinalProject\NewProject\dataset\masks_2'
+
+# יצירת תיקיית היעד במידה והיא לא קיימת
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
+    print(f"התיקייה {output_folder} נוצרה בהצלחה.")
+
+# 2. הגדרת המברשת להרחבה (Kernel)
+kernel = np.ones((7, 7), np.uint8)
+
+# 3. מעבר בלולאה על כל הקבצים בתיקיית המקור
+success_count = 0
+for filename in os.listdir(input_folder):
+    # בדיקה שהקובץ הוא אכן תמונה (לפי סיומת)
+    if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
+        
+        # בניית הנתיב המלא לקריאת הקובץ
+        img_path = os.path.join(input_folder, filename)
+        
+        # טעינת המסיכה המקורית
+        img_original = cv2.imread(img_path, cv2.IMREAD_GRAYSCALE)
+        
+        if img_original is not None:
+            # ביצוע ההרחבה (Dilation)
+            img_dilated = cv2.dilate(img_original, kernel, iterations=1)
+            
+            # בניית הנתיב המלא לשמירת הקובץ החדש
+            output_path = os.path.join(output_folder, filename)
+            
+            # שמירת המסיכה המורחבת בתיקייה החדשה
+            cv2.imwrite(output_path, img_dilated)
+            success_count += 1
+        else:
+            print(f"שגיאה בטעינת הקובץ: {filename}")
+
+print(f"סיימנו! {success_count} מסיכות מורחבות נשמרו בהצלחה בתיקייה masks_2.")

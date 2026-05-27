@@ -1,2 +1,2 @@
-Color_range=10
-Num_of_neighbors=2
+COLOR_RANGE=10
+NUM_OF_NEIGHBORS=2
