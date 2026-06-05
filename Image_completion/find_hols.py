@@ -12,8 +12,8 @@ with open("params.txt") as f:
 #תיקיית מקור ותקיית יעד
 #הקוד עובר על כך התמונות הקרועות הנמצאות בתיקיית המקור ומייצר לכל תמונה מסיכה בינארית
 #ושומר לכל תמונה את המסיכה שלה בתיקיית היעד
-input_folder = r'C:\Projects\FinalProject\NewProject\dataset\damaged'
-output_folder = r'C:\Projects\FinalProject\NewProject\dataset\masks'
+input_folder = r'C:\Projects\FinalProject\NewProject\dataset_color\damaged'
+output_folder = r'C:\Projects\FinalProject\NewProject\dataset_color\masks'
 
 #אפ התיקייה לא קיימת יוצר אותה חדשה
 if not os.path.exists(output_folder):
@@ -66,9 +66,6 @@ for filename in os.listdir(input_folder):
         save_path = os.path.join(output_folder, filename)
         cv2.imwrite(save_path, mat)
         print(f"Processed and saved: {filename}")
-
-
-
 
 
 

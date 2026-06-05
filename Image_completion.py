@@ -1,4 +1,4 @@
-from coloring_image.coloring_lips import get_lip_landmarks
+from project.coloring_lips import get_lip_landmarks
 import numpy as np
 import cv2
 
