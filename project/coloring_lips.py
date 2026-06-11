@@ -3,8 +3,8 @@ import mediapipe as mp
 import numpy as np
 from flask import Flask, request, send_file 
 import io
-import coloring_face       # קובץ צביעת הפנים שלך
-import restoration_face as restoration_face   # הקובץ החדש שפתחנו עכשיו בשלב 1
+import coloring_face       
+import restoration_face as restoration_face   
 
 app = Flask(__name__)
 
@@ -53,51 +53,17 @@ def coloring_lips(mask, image):
     return np.clip(image, 0, 255).astype(np.uint8)
 
 
-@app.route('/api/color-lips', methods=['POST'])
-def color_lips_endpoint():
-    if 'image' not in request.files:
-        return {"error": "No image file provided"}, 400
+def process_lips_coloring(image_bgr):
+    """
+    פונקציית מעטפת שמקבלת תמונת BGR, הופכת ל-LAB,
+    צובעת את השפתיים ומחזירה חזרה תמונת BGR צבועה.
+    """
+    mask = get_lips_binary_mask(image_bgr)
+    if mask is None or np.sum(mask) == 0:
+        return None  # לא זוהו שפתיים
         
-    file = request.files['image']
-    file_bytes = file.read()
-    if not file_bytes:
-        return {"error": "Empty image data"}, 400
+    lab_img = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2LAB).astype(np.float32)
+    result_lab = coloring_lips(mask, lab_img)
+    lips_colored_bgr = cv2.cvtColor(result_lab.astype(np.uint8), cv2.COLOR_LAB2BGR)
+    return lips_colored_bgr
 
-    in_memory_file = np.frombuffer(file_bytes, np.uint8)
-    original_img = cv2.imdecode(in_memory_file, cv2.IMREAD_UNCHANGED)
-
-    if original_img is None:
-        return {"error": "Failed to decode image"}, 400
-
-    if len(original_img.shape) == 2:
-        original_img = cv2.cvtColor(original_img, cv2.COLOR_GRAY2BGR)
-    elif original_img.shape[2] == 4:
-        original_img = cv2.cvtColor(original_img, cv2.COLOR_BGRA2BGR)
-
-    # 1. מנקים ומשחזרים את הפנים מהנקודות הלבנות
-    restored_img = restoration_face.restore_face_image(original_img)
-    if restored_img is None:
-        restored_img = original_img
-
-    # 2. צובעים את השפתיים על גבי התמונה המשוחזרת והנקייה
-    mask = get_lips_binary_mask(restored_img)
-    
-    if mask is not None:
-        lab_img = cv2.cvtColor(restored_img, cv2.COLOR_BGR2LAB).astype(np.float32)
-        result_lab = coloring_lips(mask, lab_img)
-        lips_colored_bgr = cv2.cvtColor(result_lab.astype(np.uint8), cv2.COLOR_LAB2BGR)
-        
-        # 3. צובעים את עור הפנים על התמונה המשולבת
-        final_bgr = coloring_face.process_face_coloring(lips_colored_bgr)
-        
-        if final_bgr is None:
-            final_bgr = lips_colored_bgr
-
-        # שולחים חזרה לאתר את התמונה המושלמת (משוחזרת + שפתיים + פנים)
-        _, img_encoded = cv2.imencode('.png', final_bgr)
-        return send_file(io.BytesIO(img_encoded.tobytes()), mimetype='image/png')
-    else:
-        return {"error": "Could not detect face/lips"}, 400
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
